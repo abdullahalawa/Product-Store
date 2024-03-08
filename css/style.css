@@ -7,3 +7,21 @@
   box-shadow: none;
   border-color: darkcyan !important;
 }
+
+.logo h1,
+.logo h1 span {
+  font-family: "Bebas Neue", sans-serif !important;
+}
+
+.logo i {
+  font-size: 35px;
+}
+
+.fa-trash-can:hover {
+  animation: fa-shake 2s 1 linear;
+}
+
+.image-container {
+  height: 150px;
+  overflow: hidden;
+}
