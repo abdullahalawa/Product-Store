@@ -10,6 +10,13 @@ var productContainerElement = document.getElementById(
 
 var productList = [];
 
+// Get Data from the local storage when open the browser for the first time
+if (productList.length == 0) {
+  productList = JSON.parse(localStorage.getItem("products"));
+
+  displayProduct();
+}
+
 function addProduct() {
   var product = {
     productName: productNameInput.value,
@@ -21,7 +28,9 @@ function addProduct() {
 
   productList.push(product);
 
-  console.log(productList);
+  // save the data on the local storage
+  localStorage.setItem("products", JSON.stringify(productList));
+
   displayProduct();
   resetProductInputs();
 }
