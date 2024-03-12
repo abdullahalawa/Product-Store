@@ -11,8 +11,8 @@ var productContainerElement = document.getElementById(
 var productList = [];
 
 // Get Data from the local storage when open the browser for the first time
-if (productList.length == 0) {
-  productList = JSON.parse(localStorage.getItem("products"));
+if (localStorage.getItem("ourProducts") != null) {
+  productList = JSON.parse(localStorage.getItem("ourProducts"));
 
   displayProduct();
 }
@@ -29,10 +29,16 @@ function addProduct() {
   productList.push(product);
 
   // save the data on the local storage
-  localStorage.setItem("products", JSON.stringify(productList));
+  localStorage.setItem("ourProducts", JSON.stringify(productList));
 
   displayProduct();
   resetProductInputs();
+}
+
+function deleteProduct(deleteIndex) {
+  productList.splice(deleteIndex, 1);
+  localStorage.setItem("ourProducts", JSON.stringify(productList));
+  displayProduct();
 }
 
 function resetProductInputs() {
@@ -67,7 +73,7 @@ function displayProduct() {
       <div class="d-flex justify-content-between">
         <p class="fw-semibold"> ${productList[i].productPrice} EGP</p>
         <div>
-          <i class="fa-solid fa-trash-can text-danger"></i
+          <i onclick="deleteProduct(${i})" class="fa-solid fa-trash-can text-danger"></i
           ><i class="fa-solid fa-pen-to-square text-success ms-2"></i>
         </div>
       </div>
