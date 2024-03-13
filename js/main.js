@@ -4,11 +4,15 @@ var productCategoryInput = document.getElementById("productCategory");
 var productDescriptionInput = document.getElementById("productDesc");
 var productImageInput = document.getElementById("productImage");
 
+var addButton = document.getElementById("addProductButton");
+var updateButton = document.getElementById("updateProductButton");
+
 var productContainerElement = document.getElementById(
   "productContainerElement"
 );
 
 var productList = [];
+var updatedProductIndex;
 
 // Get Data from the local storage when open the browser for the first time
 if (localStorage.getItem("ourProducts") != null) {
@@ -93,7 +97,7 @@ function displayProduct(arr) {
         <p class="fw-semibold"> ${arr[i].productPrice} EGP</p>
         <div>
           <i onclick="deleteProduct(${i})" class="fa-solid fa-trash-can text-danger"></i
-          ><i class="fa-solid fa-pen-to-square text-success ms-2"></i>
+          ><i onclick="moveProductDetailsToInput(${i})" class="fa-solid fa-pen-to-square text-success ms-2"></i>
         </div>
       </div>
     </div>
@@ -101,4 +105,39 @@ function displayProduct(arr) {
   }
 
   productContainerElement.innerHTML = containerElement;
+}
+
+// change buttons when click on update
+// move all product information o inputs
+function moveProductDetailsToInput(index) {
+  productNameInput.value = productList[index].productName;
+  productPriceInput.value = productList[index].productPrice;
+  productCategoryInput.value = productList[index].productCategory;
+  productDescriptionInput.value = productList[index].productDescription;
+
+  addButton.classList.replace("d-block", "d-none");
+  updateButton.classList.replace("d-none", "d-block");
+
+  updatedProductIndex = index;
+}
+
+//Update Product details
+function updateProduct() {
+  productList[updatedProductIndex].productName = productNameInput.value;
+  productList[updatedProductIndex].productPrice = productPriceInput.value;
+  productList[updatedProductIndex].productCategory = productCategoryInput.value;
+  productList[updatedProductIndex].productDescription =
+    productDescriptionInput.value;
+
+  if (productImageInput.files[0] != undefined) {
+    productList[updatedProductIndex].productImage =
+      productImageInput.files[0].name;
+  }
+
+  displayProduct(productList);
+  localStorage.setItem("ourProducts", JSON.stringify(productList));
+
+  resetProductInputs();
+  addButton.classList.replace("d-none", "d-block");
+  updateButton.classList.replace("d-block", "d-none");
 }

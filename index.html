@@ -110,8 +110,20 @@
         <label for="productImage">Product Image</label>
       </div>
 
-      <button onclick="addProduct()" class="btn btn-info text-white mt-2">
+      <button
+        id="addProductButton"
+        onclick="addProduct()"
+        class="btn btn-info text-white my-2 d-block"
+      >
         Add Product
+      </button>
+
+      <button
+        id="updateProductButton"
+        onclick="updateProduct()"
+        class="btn btn-danger text-white my-2 d-none"
+      >
+        Update Product
       </button>
     </div>
 
