@@ -1,18 +1,24 @@
+// HTML Elements
 var productNameInput = document.getElementById("productName");
 var productPriceInput = document.getElementById("productPrice");
 var productCategoryInput = document.getElementById("productCategory");
 var productDescriptionInput = document.getElementById("productDesc");
 var productImageInput = document.getElementById("productImage");
-
 var addButton = document.getElementById("addProductButton");
 var updateButton = document.getElementById("updateProductButton");
-
 var productContainerElement = document.getElementById(
   "productContainerElement"
 );
 
+// Main variables
 var productList = [];
 var updatedProductIndex;
+
+// Regex
+productNameRegex = /^[A-Z][a-z0-9\s]{2,}$/;
+productPriceRegex = /^(0|[1-9]\d*)$/;
+productCategoryRegex = /^(Mobile\sPhone|Laptop|Camera|Printer|TV)$/;
+productDescriptionregex = /(.|\s)*\S(.|\s)*/;
 
 // Get Data from the local storage when open the browser for the first time
 if (localStorage.getItem("ourProducts") != null) {
@@ -141,3 +147,17 @@ function updateProduct() {
   addButton.classList.replace("d-none", "d-block");
   updateButton.classList.replace("d-block", "d-none");
 }
+
+function isValidated(regex, element) {
+  if (regex.test(element.value) == true) {
+    element.classList.add("is-valid");
+    element.classList.remove("is-invalid");
+    return true;
+  } else {
+    element.classList.add("is-invalid");
+    element.classList.remove("is-valid");
+    return false;
+  }
+}
+
+// productNameInput.classList.remove("is-valid");

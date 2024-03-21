@@ -52,6 +52,7 @@
       <!-- Product Name -->
       <div class="form-floating mb-3">
         <input
+          oninput="isValidated(productNameRegex,this)"
           type="text"
           class="form-control border-0 border-bottom rounded-0"
           id="productName"
@@ -63,6 +64,7 @@
       <!-- Product Price -->
       <div class="form-floating mb-3">
         <input
+          oninput="isValidated(productPriceRegex,this)"
           type="number"
           class="form-control border-0 border-bottom rounded-0"
           id="productPrice"
@@ -74,6 +76,7 @@
       <!-- Product Category -->
       <div class="form-floating">
         <select
+          onselect="isValidated(productCategoryRegex,this)"
           class="form-select border-0 border-bottom rounded-0"
           id="productCategory"
           aria-label="Floating label select example"
@@ -91,6 +94,7 @@
       <!-- Product Description -->
       <div class="form-floating mb-3 mt-2">
         <textarea
+          oninput="isValidated(productDescriptionregex,this)"
           class="form-control border-0 border-bottom rounded-0"
           id="productDesc"
           placeholder="name@example.com"
