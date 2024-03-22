@@ -9,6 +9,9 @@ var updateButton = document.getElementById("updateProductButton");
 var productContainerElement = document.getElementById(
   "productContainerElement"
 );
+var validationModal = new bootstrap.Modal(document.getElementById("modal"), {});
+const toastLiveExample = document.getElementById("liveToast");
+const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
 
 // Main variables
 var productList = [];
@@ -29,21 +32,32 @@ if (localStorage.getItem("ourProducts") != null) {
 
 //add new product
 function addProduct() {
-  var product = {
-    productName: productNameInput.value,
-    productPrice: productPriceInput.value,
-    productCategory: productCategoryInput.value,
-    productDescription: productDescriptionInput.value,
-    productImage: productImageInput.files[0].name,
-  };
+  if (
+    (isValidated(productNameRegex, productNameInput) == true) &
+    (isValidated(productPriceRegex, productPriceInput) == true) &
+    (isValidated(productCategoryRegex, productCategoryInput) == true) &
+    (isValidated(productDescriptionregex, productDescriptionInput) == true) &
+    (isValidateImage(productImageInput) == true)
+  ) {
+    var product = {
+      productName: productNameInput.value,
+      productPrice: productPriceInput.value,
+      productCategory: productCategoryInput.value,
+      productDescription: productDescriptionInput.value,
+      productImage: productImageInput.files[0].name,
+    };
 
-  productList.push(product);
+    productList.push(product);
 
-  // save the data on the local storage
-  localStorage.setItem("ourProducts", JSON.stringify(productList));
+    // save the data on the local storage
+    localStorage.setItem("ourProducts", JSON.stringify(productList));
 
-  displayProduct(productList);
-  resetProductInputs();
+    displayProduct(productList);
+    resetProductInputs();
+    toastBootstrap.show();
+  } else {
+    validationModal.show(); //trigger validation modal
+  }
 }
 
 //delete product
@@ -75,6 +89,12 @@ function resetProductInputs() {
   productCategoryInput.value = "choose Your Category";
   productDescriptionInput.value = null;
   productImageInput.value = null;
+
+  productNameInput.classList.remove("is-invalid", "is-valid");
+  productPriceInput.classList.remove("is-invalid", "is-valid");
+  productCategoryInput.classList.remove("is-invalid", "is-valid");
+  productDescriptionInput.classList.remove("is-invalid", "is-valid");
+  productImageInput.classList.remove("is-invalid", "is-valid");
 }
 
 //Display Products
@@ -83,7 +103,7 @@ function displayProduct(arr) {
 
   for (var i = 0; i < arr.length; i++) {
     containerElement += `<div class="col">
-    <div class="border shadow-sm p-2">
+    <div class="border shadow-sm p-2 mt-4">
       <div class="image-container mb-5">
         <img
           class="w-100 h-100 object-fit-contain"
@@ -129,35 +149,66 @@ function moveProductDetailsToInput(index) {
 
 //Update Product details
 function updateProduct() {
-  productList[updatedProductIndex].productName = productNameInput.value;
-  productList[updatedProductIndex].productPrice = productPriceInput.value;
-  productList[updatedProductIndex].productCategory = productCategoryInput.value;
-  productList[updatedProductIndex].productDescription =
-    productDescriptionInput.value;
+  if (
+    (isValidated(productNameRegex, productNameInput) == true) &
+    (isValidated(productPriceRegex, productPriceInput) == true) &
+    (isValidated(productCategoryRegex, productCategoryInput) == true) &
+    (isValidated(productDescriptionregex, productDescriptionInput) == true) &
+    (isValidateImage(productImageInput) == true)
+  ) {
+    productList[updatedProductIndex].productName = productNameInput.value;
+    productList[updatedProductIndex].productPrice = productPriceInput.value;
+    productList[updatedProductIndex].productCategory =
+      productCategoryInput.value;
+    productList[updatedProductIndex].productDescription =
+      productDescriptionInput.value;
 
-  if (productImageInput.files[0] != undefined) {
-    productList[updatedProductIndex].productImage =
-      productImageInput.files[0].name;
+    if (productImageInput.files[0] != undefined) {
+      productList[updatedProductIndex].productImage =
+        productImageInput.files[0].name;
+    }
+
+    displayProduct(productList);
+    localStorage.setItem("ourProducts", JSON.stringify(productList));
+
+    resetProductInputs();
+    toastBootstrap.show();
+    addButton.classList.replace("d-none", "d-block");
+    updateButton.classList.replace("d-block", "d-none");
+  } else {
+    validationModal.show(); //trigger validation modal
   }
-
-  displayProduct(productList);
-  localStorage.setItem("ourProducts", JSON.stringify(productList));
-
-  resetProductInputs();
-  addButton.classList.replace("d-none", "d-block");
-  updateButton.classList.replace("d-block", "d-none");
 }
 
+// Validate inputs except for image input
 function isValidated(regex, element) {
   if (regex.test(element.value) == true) {
     element.classList.add("is-valid");
     element.classList.remove("is-invalid");
+    element.nextElementSibling.classList.replace("d-block", "d-none");
+
     return true;
   } else {
     element.classList.add("is-invalid");
     element.classList.remove("is-valid");
+    element.nextElementSibling.classList.replace("d-none", "d-block");
+
     return false;
   }
 }
 
-// productNameInput.classList.remove("is-valid");
+//Validate Image input
+function isValidateImage(element) {
+  if (element.files[0] != undefined) {
+    element.classList.add("is-valid");
+    element.classList.remove("is-invalid");
+    element.nextElementSibling.classList.replace("d-block", "d-none");
+
+    return true;
+  }
+  element.classList.add("is-invalid");
+  element.classList.remove("is-valid");
+  element.nextElementSibling.classList.replace("d-none", "d-block");
+
+  return true;
+}

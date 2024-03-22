@@ -58,6 +58,10 @@
           id="productName"
           placeholder="name@example.com"
         />
+        <p class="validation-msg text-danger mt-1 d-none">
+          * Product name should start with an Uppercase letter - min 3 letter
+          allowed
+        </p>
         <label for="productName">Product Name</label>
       </div>
 
@@ -70,13 +74,16 @@
           id="productPrice"
           placeholder="name@example.com"
         />
+        <p class="validation-msg text-danger mt-1 d-none">
+          * Only 0 and positive numbers allowed.
+        </p>
         <label for="productPrice">Product Price</label>
       </div>
 
       <!-- Product Category -->
       <div class="form-floating">
         <select
-          onselect="isValidated(productCategoryRegex,this)"
+          onchange="isValidated(productCategoryRegex,this)"
           class="form-select border-0 border-bottom rounded-0"
           id="productCategory"
           aria-label="Floating label select example"
@@ -88,6 +95,9 @@
           <option>Printer</option>
           <option>TV</option>
         </select>
+        <p class="validation-msg text-danger mt-1 d-none">
+          * Please enter a valid choice.
+        </p>
         <label for="productCategory">Product Category</label>
       </div>
 
@@ -100,17 +110,24 @@
           placeholder="name@example.com"
         >
         </textarea>
+        <p class="validation-msg text-danger mt-1 d-none">
+          * Blank description is not allowed
+        </p>
         <label for="productDesc">Product Description</label>
       </div>
 
       <!-- Product Image -->
       <div class="form-floating mb-3">
         <input
+          onchange="isValidateImage(this)"
           type="file"
           class="form-control border-0 border-bottom rounded-0"
           id="productImage"
           placeholder="name@example.com"
         />
+        <p class="validation-msg text-danger mt-1 d-none">
+          * please choose a valid image.
+        </p>
         <label for="productImage">Product Image</label>
       </div>
 
@@ -142,6 +159,78 @@
         id="productContainerElement"
         class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
       ></div>
+    </div>
+
+    <!-- Validation Modal -->
+    <div
+      class="modal fade"
+      id="modal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Validation Errors
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h4 class="fs-6 fw-bold">
+              Inputs is not valid, Please follow the rules below :
+            </h4>
+            <ul>
+              <li>
+                No
+                <span
+                  class="text-danger fw-bold text-uppercase text-decoration-underline"
+                  >blank values</span
+                >
+                allowed
+              </li>
+              <li>
+                Please review the
+                <span
+                  class="text-danger fw-bold text-uppercase text-decoration-underline"
+                  >error messages
+                </span>
+                for each input and try again
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success submission toast -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div
+        id="liveToast"
+        class="toast"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-body">
+          <i class="fa-regular fa-thumbs-up pe-1"></i> Succesfully Submitted
+        </div>
+      </div>
     </div>
 
     <!-- bootstrap -->

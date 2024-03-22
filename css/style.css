@@ -25,3 +25,12 @@
   height: 150px;
   overflow: hidden;
 }
+
+.validation-msg {
+  font-size: 0.8rem;
+}
+
+div.toast {
+  background-color: #007e50;
+  color: #fff;
+}
