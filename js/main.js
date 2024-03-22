@@ -153,8 +153,7 @@ function updateProduct() {
     (isValidated(productNameRegex, productNameInput) == true) &
     (isValidated(productPriceRegex, productPriceInput) == true) &
     (isValidated(productCategoryRegex, productCategoryInput) == true) &
-    (isValidated(productDescriptionregex, productDescriptionInput) == true) &
-    (isValidateImage(productImageInput) == true)
+    (isValidated(productDescriptionregex, productDescriptionInput) == true)
   ) {
     productList[updatedProductIndex].productName = productNameInput.value;
     productList[updatedProductIndex].productPrice = productPriceInput.value;
